@@ -1,4 +1,31 @@
-import { Controller } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Inject,
+  Post,
+} from '@nestjs/common';
+import { ApiResponse } from '@nestjs/swagger';
+import { UserFormatter } from 'src/formatter/user.formatter';
+import { RegisterUserRequest } from 'src/interface/apiRequest';
+import { UserResponse } from 'src/interface/apiResponse';
+import { UserService } from 'src/service/user.service';
 
 @Controller('user')
-export class UserController {}
+export class UserController {
+  constructor(
+    private readonly userService: UserService,
+    private readonly userFormatter: UserFormatter,
+  ) {}
+
+  @Post('register')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({ status: HttpStatus.OK, type: UserResponse })
+  public async register(
+    @Body() body: RegisterUserRequest,
+  ): Promise<UserResponse> {
+    const user = await this.userService.addUser(body);
+    return this.userFormatter.toUserResponse(user);
+  }
+}
