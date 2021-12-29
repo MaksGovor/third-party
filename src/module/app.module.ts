@@ -11,6 +11,7 @@ import { UserModule } from './user.module';
   imports: [
     ConfigModule.forRoot({
       load: [configuration],
+      envFilePath: ['.env'],
       isGlobal: true,
       cache: true,
     }),
