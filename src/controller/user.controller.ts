@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Inject,
@@ -27,5 +28,13 @@ export class UserController {
   ): Promise<UserResponse> {
     const user = await this.userService.addUser(body);
     return this.userFormatter.toUserResponse(user);
+  }
+
+  @Get('all')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({ status: HttpStatus.OK, type: [UserResponse] })
+  public async list(): Promise<Array<UserResponse>> {
+    const users = await this.userService.listUsers();
+    return users.map(this.userFormatter.toUserResponse);
   }
 }
