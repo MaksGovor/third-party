@@ -7,13 +7,14 @@ import {
   Inject,
   Post,
 } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserFormatter } from 'src/formatter/user.formatter';
 import { RegisterUserRequest } from 'src/interface/apiRequest';
 import { UserResponse } from 'src/interface/apiResponse';
 import { UserService } from 'src/service/user.service';
 
 @Controller('user')
+@ApiTags('User')
 export class UserController {
   constructor(
     private readonly userService: UserService,
